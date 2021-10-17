@@ -25,7 +25,31 @@ class PostHandler {
 
       return res.status(200).send({ data: result });
     } catch (error) {
-      return res.status(500).send({ message: error });
+      return res.status(500).send({ message: error.message });
+    }
+  };
+
+  updatePost = async (req, res) => {
+    try {
+      const { body, params } = req;
+      const result = await this.model.updatePost(this.db, body, params);
+
+      return res.status(200).send({ data: result });
+    } catch (error) {
+      return res.status(500).send({ message: error.message });
+    }
+  };
+
+  deletePost = async (req, res) => {
+    try {
+      const { params } = req;
+      const result = await this.model.deletePost(this.db, params);
+
+      return res
+        .status(200)
+        .send({ message: "Data berhasil di hapus", data: result });
+    } catch (error) {
+      return res.status(500).send({ message: error.message });
     }
   };
 }

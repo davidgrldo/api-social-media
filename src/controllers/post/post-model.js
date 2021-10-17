@@ -52,6 +52,37 @@ class Model {
       return error;
     }
   }
+
+  async updatePost(db, body, params) {
+    try {
+      const result = await db.one(
+        `
+        update posts set content = $1, updated_at = now() where  post_id = $2
+        returning *
+        `,
+        [body.content, params.id]
+      );
+
+      return result;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async deletePost(db, params) {
+    try {
+      const result = await db.one(
+        `
+          delete from posts where post_id = $1
+        `,
+        params.post_id
+      );
+
+      return result;
+    } catch (error) {
+      return error;
+    }
+  }
 }
 
 export default Model;
